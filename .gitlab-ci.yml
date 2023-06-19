@@ -1,0 +1,82 @@
+stages:
+  - build
+  - test
+  - deploy
+
+variables:
+  S3_BUCKET_PROD: $AWS_S3_BUCKET_PROD
+
+.yarn_build:
+  image: node:latest
+  cache:
+    paths:
+      - node_modules/
+  script:
+    - yarn install
+    - yarn build # Build command
+  artifacts:
+    paths:
+      - build
+
+build_prod:
+  extends: .yarn_build
+  stage: build
+  before_script:
+    - export APP_ENV="prod"
+  rules:
+    - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
+
+# build:
+#   image: node:latest
+#   stage: build
+#   cache:
+#     paths:
+#       - node_modules/
+#   script:
+#     - yarn install
+#     - yarn build
+#   artifacts:
+#     paths:
+#       - build
+#   rules:
+#     - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
+
+lint: # This job also runs in the test stage.
+  image: node:latest
+  stage: test # It can run at the same time as unit-test-job (in parallel).
+  cache:
+    paths:
+      - .yarn
+  before_script:
+    - yarn config set cache-folder .yarn
+    - yarn install --frozen-lockfile
+  script:
+    - echo "Linting code.."
+    - yarn lint
+    - echo "No lint issues found."
+  rules:
+    - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
+
+.deploy_aws:
+  image: python:latest
+  variables:
+    AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
+    AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
+    AWS_S3_BUCKET: $AWS_S3_BUCKET
+  script:
+    - pip install awscli
+    - aws s3 rm s3://${S3_BUCKET} --recursive
+    - aws s3 cp build s3://${S3_BUCKET} --recursive
+
+deploy_prod:
+  extends: .deploy_aws
+  stage: deploy
+  dependencies:
+    - build_prod
+  before_script:
+    - export S3_BUCKET=${S3_BUCKET_PROD}
+  environment:
+    name: production
+  rules:
+    - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
+  when: manual
