@@ -50,7 +50,6 @@ export const createWallet = createAsyncThunk(
   async (data, { dispatch, getState }) => {
     const state = getState();
     const walletList = state.wallet.walletList;
-    const walletCount = state.wallet.walletCount;
 
     dispatch(startLoading1());
     try {
@@ -63,10 +62,25 @@ export const createWallet = createAsyncThunk(
             variant: "success",
           })
         );
+        let addressMacth = 0;
+        let valueMatch = 0;
+        // eslint-disable-next-line array-callback-return
+        [response.accounts].map((res) => {
+          if(res.is_valid_acc){
+            addressMacth = ++addressMacth
+            if(res.balance_diff === 0 ){
+              valueMatch = ++ valueMatch
+            }
+          }
+        })
+        let valueUnMatch = response.accounts.length - valueMatch;
         return {
-          list: [...response.accounts, ...walletList],
-          count: Number(walletCount) + 1,
+          list: [...response.accounts],
+          count: response.accounts.length,
           response,
+          addressMacth: addressMacth,
+          valueMatch: valueMatch,
+          valueUnMatch: valueUnMatch
         };
       }
       dispatch(clearLoading1());
@@ -95,7 +109,10 @@ const createWalletSlice = createSlice({
   name: "wallet",
   initialState: {
     walletList: [],
-    walletCount: 0,
+    walletCount: 10,
+    addressMacth: 10,
+    valueMatch: 5,
+    valueUnMatch: 5,
   },
   reducers: {},
   extraReducers: {
@@ -103,11 +120,17 @@ const createWalletSlice = createSlice({
       ...state,
       walletList: action.payload.list,
       walletCount: action.payload.count,
+      addressMacth: action.payload.addressMacth,
+      valueMatch: action.payload.valueMatch,
+      valueUnMatch: action.payload.valueUnMatch,
     }),
     [createWallet.fulfilled]: (state, action) => ({
       ...state,
       walletList: action.payload.list,
       walletCount: action.payload.count,
+      addressMacth: action.payload.addressMacth,
+      valueMatch: action.payload.valueMatch,
+      valueUnMatch: action.payload.valueUnMatch,
     }),
   },
 });

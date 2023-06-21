@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useRef } from "react";
+import React, { Fragment, useState, useRef, useEffect } from "react";
 import { CssBaseline } from "@mui/material";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -36,7 +36,11 @@ const Dashboard = () => {
   const dispatch = useDispatch();
   const loading1 = useSelector(({ loading }) => loading.loading1);
   const tableData = useSelector(({ wallet }) => wallet.walletList);
-  const [series] = useState([60, 40]);
+  const addressMacth = useSelector(({ wallet }) => wallet.addressMacth);
+  const valueMatch = useSelector(({ wallet }) => wallet.valueMatch);
+  const valueUnMatch = useSelector(({ wallet }) => wallet.valueUnMatch);
+
+  const [series, setSeries] = useState([]);
   const [options] = useState({
     chart: {
       width: 380,
@@ -58,7 +62,7 @@ const Dashboard = () => {
       },
     ],
   });
-  const [series1] = useState([100]);
+  const [series1, setSeries1] = useState([]);
   const [options1] = useState({
     chart: {
       width: 380,
@@ -80,7 +84,7 @@ const Dashboard = () => {
       },
     ],
   });
-  const [series2] = useState([50, 50]);
+  const [series2, setSeries2] = useState([]);
   const [options2] = useState({
     chart: {
       width: 380,
@@ -168,6 +172,12 @@ const Dashboard = () => {
       label: "Balance Difference Percentage",
     },
   ];
+
+  useEffect(()=> {
+    setSeries([valueMatch, valueUnMatch])
+    setSeries1([addressMacth])
+    setSeries2([valueMatch, valueUnMatch])
+  },[addressMacth, valueMatch, valueUnMatch])
 
   const createFun = () => {
     reset();
