@@ -1,6 +1,7 @@
-import axiosConfig from '../utils/axios';
+import axiosConfig from "../utils/axios";
 
 const handleResponse = (error) => {
+  console.log(error);
   if (
     error.response &&
     (error.response.status === 500 ||
@@ -13,13 +14,13 @@ const handleResponse = (error) => {
   return error.response && error.response.data;
 };
 
-export const fetchDashboardService = (data) =>
+export const fetchWalletService = (data) =>
   axiosConfig
-    .get(`/fund/list`, data)
+    .get(`/wallet/list`, data)
     .then((response) => response.data)
     .catch(handleResponse);
-export const createDashboardService = (data) =>
+export const createWalletService = (data) =>
   axiosConfig
-    .post(`/fund/create`, data)
+    .post(`/xrecon/wallet/verify`, data)
     .then((response) => response.data)
     .catch(handleResponse);
