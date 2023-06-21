@@ -65,7 +65,7 @@ export const createWallet = createAsyncThunk(
         let addressMacth = 0;
         let valueMatch = 0;
         // eslint-disable-next-line array-callback-return
-        [response.accounts].map((res) => {
+        response.accounts.map((res) => {
           if(res.is_valid_acc){
             addressMacth = ++addressMacth
             if(res.balance_diff === 0 ){
