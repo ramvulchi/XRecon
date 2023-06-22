@@ -95,12 +95,12 @@ export const createWallet = createAsyncThunk(
             showMessage({ message: response.message, variant: "error" })
           );
       }
-      return { list: walletList, count: 0, response };
+      return { list: walletList, count: 0, response, addressMacth: 0, valueMatch: 0, valueUnMatch: 0 };
     } catch (error) {
       dispatch(clearLoading1());
       error.message &&
         dispatch(showMessage({ message: error.message, variant: "error" }));
-      return { list: walletList, count: 0, response: { status: false } };
+      return { list: walletList, count: 0, response: { status: false }, addressMacth: 0, valueMatch: 0, valueUnMatch: 0 };
     }
   }
 );

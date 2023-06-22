@@ -204,8 +204,6 @@ const Dashboard = () => {
     dispatch(createWallet(target1)).then((res) => {
       if (res && res?.payload && res?.payload?.response?.status) {
         setOpenDialog(false);
-      } else {
-        setOpenDialog(true);
       }
     });
   };
