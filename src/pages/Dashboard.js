@@ -47,7 +47,7 @@ const Dashboard = () => {
       type: "pie",
     },
     colors: ["#2cd4d9", "#ee3a3a"],
-    labels: ["Macth", "Mis-Match"],
+    labels: ["Match", "Mis-Match"],
     responsive: [
       {
         breakpoint: 480,
@@ -69,7 +69,7 @@ const Dashboard = () => {
       type: "pie",
     },
     colors: ["#2cd4d9"],
-    labels: ["Macth"],
+    labels: ["Match"],
     responsive: [
       {
         breakpoint: 480,
@@ -91,7 +91,7 @@ const Dashboard = () => {
       type: "pie",
     },
     colors: ["#2cd4d9", "#ee3a3a"],
-    labels: ["Macth", "Mis-Match"],
+    labels: ["Match", "Mis-Match"],
     responsive: [
       {
         breakpoint: 480,
@@ -340,12 +340,12 @@ const Dashboard = () => {
                             <Typography>{res.account}</Typography>
                           </TableCell>
                           <TableCell>
-                            <Typography>{res.balance / 1000000}</Typography>
+                            <Typography>{Number(res.balance).toFixed(5)}</Typography>
                           </TableCell>
-                          <TableCell>{res.ledger_balance / 1000000}</TableCell>
-                          <TableCell>{res.balance_diff / 1000000}</TableCell>
+                          <TableCell>{Number(res.ledger_balance).toFixed(5)}</TableCell>
+                          <TableCell>{Number(res.balance_diff).toFixed(5)}</TableCell>
                           <TableCell>
-                            {res.balance_diff_percent / 1000000}
+                            {Number(res.balance_diff_percent).toFixed(5)}
                           </TableCell>
                         </TableRow>
                       </Fragment>
