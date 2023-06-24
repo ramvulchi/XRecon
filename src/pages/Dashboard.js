@@ -173,11 +173,11 @@ const Dashboard = () => {
     },
   ];
 
-  useEffect(()=> {
-    setSeries([valueMatch, valueUnMatch])
-    setSeries1([addressMacth])
-    setSeries2([valueMatch, valueUnMatch])
-  },[addressMacth, valueMatch, valueUnMatch])
+  useEffect(() => {
+    setSeries([valueMatch, valueUnMatch]);
+    setSeries1([addressMacth]);
+    setSeries2([valueMatch, valueUnMatch]);
+  }, [addressMacth, valueMatch, valueUnMatch]);
 
   const createFun = () => {
     reset();
@@ -340,10 +340,16 @@ const Dashboard = () => {
                             <Typography>{res.account}</Typography>
                           </TableCell>
                           <TableCell>
-                            <Typography>{Number(res.balance).toFixed(5)}</Typography>
+                            <Typography>
+                              {Number(res.balance).toFixed(5)}
+                            </Typography>
                           </TableCell>
-                          <TableCell>{Number(res.ledger_balance).toFixed(5)}</TableCell>
-                          <TableCell>{Number(res.balance_diff).toFixed(5)}</TableCell>
+                          <TableCell>
+                            {Number(res.ledger_balance).toFixed(5)}
+                          </TableCell>
+                          <TableCell>
+                            {Number(res.balance_diff).toFixed(5)}
+                          </TableCell>
                           <TableCell>
                             {Number(res.balance_diff_percent).toFixed(5)}
                           </TableCell>

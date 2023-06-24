@@ -66,13 +66,13 @@ export const createWallet = createAsyncThunk(
         let valueMatch = 0;
         // eslint-disable-next-line array-callback-return
         response.accounts.map((res) => {
-          if(res.is_valid_acc){
-            addressMacth = ++addressMacth
-            if(res.balance_diff === 0 ){
-              valueMatch = ++ valueMatch
+          if (res.is_valid_acc) {
+            addressMacth = ++addressMacth;
+            if (res.balance_diff === 0) {
+              valueMatch = ++valueMatch;
             }
           }
-        })
+        });
         let valueUnMatch = response.accounts.length - valueMatch;
         return {
           list: [...response.accounts],
@@ -80,7 +80,7 @@ export const createWallet = createAsyncThunk(
           response,
           addressMacth: addressMacth,
           valueMatch: valueMatch,
-          valueUnMatch: valueUnMatch
+          valueUnMatch: valueUnMatch,
         };
       }
       dispatch(clearLoading1());
@@ -95,12 +95,26 @@ export const createWallet = createAsyncThunk(
             showMessage({ message: response.message, variant: "error" })
           );
       }
-      return { list: walletList, count: 0, response, addressMacth: 0, valueMatch: 0, valueUnMatch: 0 };
+      return {
+        list: walletList,
+        count: 0,
+        response,
+        addressMacth: 0,
+        valueMatch: 0,
+        valueUnMatch: 0,
+      };
     } catch (error) {
       dispatch(clearLoading1());
       error.message &&
         dispatch(showMessage({ message: error.message, variant: "error" }));
-      return { list: walletList, count: 0, response: { status: false }, addressMacth: 0, valueMatch: 0, valueUnMatch: 0 };
+      return {
+        list: walletList,
+        count: 0,
+        response: { status: false },
+        addressMacth: 0,
+        valueMatch: 0,
+        valueUnMatch: 0,
+      };
     }
   }
 );
