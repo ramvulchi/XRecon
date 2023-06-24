@@ -116,12 +116,12 @@ function Themebar() {
               <Tab
                 sx={{ textTransform: "capitalize" }}
                 disabled
-                label="Understanding Wallets"
+                label="Wallets Analysis"
               />
               <Tab
                 sx={{ textTransform: "capitalize" }}
                 disabled
-                label="Understanding Transactions"
+                label="Transactions Analysis"
               />
               <Tab
                 sx={{ textTransform: "capitalize" }}
@@ -135,7 +135,7 @@ function Themebar() {
               <Tab
                 sx={{ textTransform: "capitalize" }}
                 disabled
-                label="Undisclosed Data"
+                label="Data"
               />
             </Tabs>
           </Box>
